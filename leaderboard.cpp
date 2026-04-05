@@ -10,6 +10,18 @@ struct ScoreEntry {
     string username;
     int score;
 };
+void totalPlayers() {
+    ifstream file("scores.txt");
+    string name;
+    int score, count = 0;
+
+    while (file >> name >> score) {
+        count++;
+    }
+
+    cout << "Total Players: " << count << endl;
+    file.close();
+}
 
 void Leaderboard::saveScore(const string& username, int score) {
     ofstream file("scores.txt", ios::app);
