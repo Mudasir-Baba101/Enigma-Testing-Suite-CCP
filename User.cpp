@@ -3,64 +3,99 @@
 #include <fstream>
 #include <functional>
 
-void User::registerUser() {
-    string username, password;
+using namespace std ;
 
-    cout << "Enter new username: ";
-    cin >> username;
 
-    if (userExists(username)) {
-        cout << "Username already exists!\n";
-        return;
-    }
-
-    cout << "Enter password: ";
-    cin >> password;
-
-    string hashed = hashPassword(password);
-
-    ofstream file("users.txt", ios::app);
-    file << username << " " << hashed << endl;
-
-    cout << "Registration successful!\n";
+string User::hashPassword(string password){ //for hashing password
+    hash <string> hasher ;
+    return to_string(hasher(password)) ;
 }
 
-bool User::loginUser(string& loggedInUser) {
-    string username, password;
-    cout << "Enter username: ";
-    cin >> username;
-    cout << "Enter password: ";
-    cin >> password;
 
-    string hashedInput = hashPassword(password);
+bool User::userExists(string user_name){ //to check if user exist or not
+    ifstream file("users.txt") ;
+    string u, p ;
 
-    ifstream file("users.txt");
-    string u, p;
+    while(file >> u >> p)
+    {
+        if (u == user_name) return true ;
+    }
+    
+    return false ;
 
-    while (file >> u >> p) {
-        if (u == username && p == hashedInput) {
-            cout << "Login successful!\n";
-            loggedInUser = username;
-            return true;
+}
+
+
+void User::registerUser(){ //register new user
+    string user_name, passw ;
+
+    cout <<"Enter new username : " ;
+    cin >> user_name ;
+
+    if(userExists(user_name))
+        {
+        cout << "| Username already exists.. |\n" ;
+        return ;
+        }
+
+    cout <<"Enter password : " ;
+    cin >> passw ;
+
+    string hashed = hashPassword(passw) ;
+
+    ofstream file("users.txt", ios::app);
+    file << user_name <<" "<< hashed << endl ;
+
+    cout <<"| Registration successful.. |\n" ;
+}
+
+
+bool User::loginUser(string& loggedInUser){ //login existing user
+    string user_name, passw;
+
+    cout <<"Enter username : " ;
+    cin >> user_name;
+    cout <<"Enter password : " ;
+    cin >> passw ;
+
+    string hashedInput = hashPassword(passw) ;
+
+    ifstream file("users.txt") ;
+    string u, p ;
+
+    while(file >> u >> p)
+    {
+        if (u == user_name && p == hashedInput) 
+        {
+            cout <<"Login Successful\n" ;
+            loggedInUser = user_name ;
+            return true ;
         }
     }
 
-    cout << "Invalid username or password.\n";
-    return false;
+    cout <<"| Invalid user username or password.. |\n" ;
+
+
+    return false ;
 }
 
-bool User::adminLogin() {
-    string username, password;
-    cout << "Enter admin username: ";
-    cin >> username;
-    cout << "Enter admin password: ";
-    cin >> password;
 
-    if (username == "admin" && password == "admin123") {
-        cout << "Admin login successful!\n";
-        return true;
+bool User::adminLogin(){  //login page of admin
+    string user_name, passw ;
+
+    cout <<"Enter Username: " ;
+    cin >> user_name ;
+    cout <<"Enter Password: " ;
+    cin >> passw ;
+
+    if(user_name == "admin" && passw == "admin123")
+    {
+        cout <<"admin login successful..\n" ;
+        return true ;
     }
 
-    cout << "Invalid admin credentials.\n";
-    return false;
+    cout <<" | Invalid admin username Or password.. |\n" ;
+
+
+    return false ;
 }
