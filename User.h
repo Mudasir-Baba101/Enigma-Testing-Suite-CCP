@@ -3,15 +3,14 @@
 
 #include <string>
 
-class User {
+class User{
 private:
-    std::string hashPassword(std::string password);
-    bool userExists(std::string username);
+    std::string hashPassword(std::string password) ;
+    bool userExists(std::string username) ;
 
 public:
-    void registerUser();
-    bool loginUser(std::string& loggedInUser);
-    bool adminLogin();
+    void registerUser() ;
+    bool loginUser(std::string& loggedInUser) ;
+    bool adminLogin() ;
 };
-
 #endif
